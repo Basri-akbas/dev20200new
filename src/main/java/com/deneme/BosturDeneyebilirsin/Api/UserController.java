@@ -18,10 +18,13 @@ public class UserController {
 
     @GetMapping(path = "/get")
     public static void getir() {
+
+
     }
 
     @GetMapping(path = "/post")
     public static void gonder() {
+
     }
 
     // get, post, put, delete yazilacak ve calisir vaziyette olacak
