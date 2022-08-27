@@ -13,7 +13,6 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "abc")
-@Data
 public class User {
 
     @Id

@@ -12,7 +12,6 @@ public class UserController {
     private final UserService userService;
 
     public UserController(UserService userService) {
-
         this.userService = userService;
     }
 
@@ -28,7 +27,4 @@ public class UserController {
 
     }
 
-    // get, post, put, delete yazilacak ve calisir vaziyette olacak
-    // UnitTest yazilacak => JUnit 5 kullanilacak
-    // Mockito Framework bakilacak
 }
