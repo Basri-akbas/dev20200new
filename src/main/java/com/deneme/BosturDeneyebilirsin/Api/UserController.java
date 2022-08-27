@@ -25,6 +25,7 @@ public class UserController {
     @GetMapping(path = "/post")
     public static void gonder() {
 
+
     }
 
     // get, post, put, delete yazilacak ve calisir vaziyette olacak
