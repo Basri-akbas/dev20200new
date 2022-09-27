@@ -1,23 +1,21 @@
 package com.deneme.BosturDeneyebilirsin.service;
 
-import com.deneme.BosturDeneyebilirsin.Entity.User;
-import com.deneme.BosturDeneyebilirsin.Repository.UserRepository;
+import com.deneme.BosturDeneyebilirsin.entity.Book;
+import com.deneme.BosturDeneyebilirsin.entity.User;
+import com.deneme.BosturDeneyebilirsin.repository.UserRepository;
 import com.github.javafaker.Faker;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-
-
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -43,21 +41,28 @@ public class UserService {
     public void deleteUserById(Long id){
         userRepository.deleteById(id);
     }
-    
-    public Integer save100User(){
+
+    public Long save100User(){
         Faker faker=new Faker();
-        Random random=new Random();
+
 
         for (int i=0;i<100;i++){
-            long id=random.nextLong();
+            long bookId= Long.valueOf(faker.number().numberBetween(1,500));
+            long id=faker.number().randomNumber();
             String name = faker.name().fullName();
             String soyIsim = faker.name().firstName();
             String adres = faker.address().city();
             String telefon = faker.phoneNumber().phoneNumber();
-           // String book=faker.book().title();
-            User user=new User(id,name,soyIsim,adres,telefon);
+            Date createdDate=faker.date().past(5,TimeUnit.DAYS);
+            String email=faker.internet().emailAddress();
+            String securityNumber=faker.idNumber().ssnValid();
+            boolean isSingle=faker.random().nextBoolean();
+            Date  time=faker.date().past(1000, TimeUnit.DAYS);
+            Book book=new Book(bookId,"title","writer",time, "555","version",true);
+            User user=new User(id,book,name,soyIsim,adres,telefon,createdDate,email,securityNumber,isSingle);
+
             userRepository.save(user);
         }
-    return userRepository.findAllBy().size();
+        return userRepository.count();
     }
 }

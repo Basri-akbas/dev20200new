@@ -1,9 +1,11 @@
-package com.deneme.BosturDeneyebilirsin.Entity;
+package com.deneme.BosturDeneyebilirsin.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.Date;
 
 @Entity
 @NoArgsConstructor
@@ -15,13 +17,12 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false)
     private Long id;
 
-  /*  @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "book_id", referencedColumnName = "bookId")
-    private User bookId;
-*/
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    private Book bookId;
+
     @Column(name = "isim")
     private String name;
 
@@ -34,9 +35,9 @@ public class User {
     @Column(name = "telefon")
     private String telefon;
 
-    /* @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss", timezone = "Turkey")
+     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss", timezone = "Turkey")
     @Column(name="date")
-    private LocalDateTime createdDate;
+    private Date createdDate;
 
     @Column(name="email")
     @Email
@@ -47,6 +48,6 @@ public class User {
 
     @Column(name="single")
     private boolean isSingle;
-*/
+
 
 }

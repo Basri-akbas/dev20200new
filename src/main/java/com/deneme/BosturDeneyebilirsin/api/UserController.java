@@ -1,8 +1,8 @@
-package com.deneme.BosturDeneyebilirsin.Api;
+package com.deneme.BosturDeneyebilirsin.api;
 
-import com.deneme.BosturDeneyebilirsin.Entity.User;
+import com.deneme.BosturDeneyebilirsin.entity.User;
+import com.deneme.BosturDeneyebilirsin.jdbc.JdbcDbConnector;
 import com.deneme.BosturDeneyebilirsin.service.UserService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.sql.SQLException;
+import java.util.*;
 
 @Controller
 @RequestMapping("/user")
@@ -27,7 +25,6 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
 
 
     @PostMapping("/register")
@@ -71,13 +68,25 @@ public class UserController {
         return new ResponseEntity<>("success",HttpStatus.OK);
     }
 
-    @PostMapping("/users100")
-    public ResponseEntity<Map<String,Integer>> save100Users(){
-       Integer sum= userService.save100User();
 
-        Map<String,Integer> map=new HashMap<>();
+
+    @PostMapping("/users100")
+    public ResponseEntity<Map<String,Long>> save100Users(){
+        Long sum= userService.save100User();
+
+        Map<String,Long> map=new HashMap<>();
         map.put("Toplam kullanici sayisi", sum);
         return new ResponseEntity<>(map, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/ua/{id}")
+    public ResponseEntity<List<List>> findUserByIdUndAdress(@PathVariable("id") int id) throws SQLException, ClassNotFoundException {
+        List<List> sonuc=new ArrayList<>();
+        JdbcDbConnector jb=new JdbcDbConnector();
+        sonuc.add(jb.getUserUndAdres1(id));
+
+
+        return new ResponseEntity<>(sonuc,HttpStatus.OK);
     }
 
 }

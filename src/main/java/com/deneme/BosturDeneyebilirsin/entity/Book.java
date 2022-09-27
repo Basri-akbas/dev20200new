@@ -1,4 +1,4 @@
-package com.deneme.BosturDeneyebilirsin.Entity;
+package com.deneme.BosturDeneyebilirsin.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -16,22 +15,26 @@ import java.util.Date;
 @AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "book")
+@Table(name = "books")
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "book_id", nullable = false)
-    private Long bookId;
+    private Long id;
 
+   // @OneToOne(cascade = CascadeType.PERSIST)
+    //@JoinColumn(name = "user_id", referencedColumnName = "id")
+    //private User userId;
 
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "writer")
     private String writer;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss", timezone = "Turkey")
     @Column(name = "publishDate")
-    private LocalDateTime publishDate;
+    private Date publishDate;
 
     @Column(name = "pageCount")
     private String pageCount;
@@ -41,4 +44,6 @@ public class Book {
 
     @Column(name = "isEpubVersionExist")
     private boolean isEpubVersionExist;
+
+
 }
