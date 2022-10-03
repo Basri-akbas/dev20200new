@@ -4,50 +4,50 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "UserTable")
+@Data
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "userId", nullable = false)
+    private Long userId;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
-    private Book bookId;
+    @OneToOne(cascade=CascadeType.PERSIST)
+    @JoinColumn(name="book_id",referencedColumnName = "bookId")
+    private Book book;
 
-    @Column(name = "isim")
-    private String name;
-
-    @Column(name = "soyIsim")
-    private String soyIsim;
-
-    @Column(name = "adres")
-    private String adres;
-
-    @Column(name = "telefon")
-    private String telefon;
-
-     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss", timezone = "Turkey")
-    @Column(name="date")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd HH:mm:ss", timezone="Germany")
+    @Column(name="createdDate", nullable = true)
     private Date createdDate;
 
-    @Column(name="email")
-    @Email
+    @Column(name = "firstName")
+    private String firstName;
+
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "adress")
+    private String adress;
+
+    @Column(name = "email")
     private String email;
 
-    @Column(name="securityNumber ")
-    private String securityNumber ;
+    @Column(name = "mobilePhoneNumber")
+    private String mobilePhoneNumber;
 
-    @Column(name="single")
+    @Column(name = "securityNumber")
+    private String securityNumber;
+
+    @Column(name = "isSingle")
     private boolean isSingle;
-
 
 }

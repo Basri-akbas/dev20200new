@@ -1,94 +1,55 @@
 package com.deneme.BosturDeneyebilirsin.api;
 
-import com.deneme.BosturDeneyebilirsin.entity.User;
-import com.deneme.BosturDeneyebilirsin.jdbc.JdbcDbConnector;
 import com.deneme.BosturDeneyebilirsin.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.sql.SQLException;
-import java.util.*;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
     private final UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
+    @GetMapping(path = "/get")
+    public static void getir() {
+    }
 
-    @PostMapping("/register")
-    public ResponseEntity<Map<String,Boolean>> registerUser(@RequestBody User user){
+    @GetMapping("/get/count")
+    public ResponseEntity<Long> getCount() throws Exception{
+        Long count = userService.getCount();
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+/*
+    @PostMapping("/add")
+    public ResponseEntity<String> addUser(@RequestBody User user) throws Exception {
         userService.register(user);
+        return new ResponseEntity<>("Eklendi", HttpStatus.CREATED);
 
-        Map<String,Boolean>map=new HashMap<>();
-        map.put("User registered successfully",true);
-
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-    }
-    //get All user
-    @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers(){
-        List<User> users=userService.getAllUsers();
-
-        return new ResponseEntity<>(users,HttpStatus.OK);
-    }
-    //get user by id
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> findUserById(@PathVariable("id") Long id){
-        Optional<User> user=userService.getuserById(id);
-        if (user.get().getAdres()==null){
-            return new ResponseEntity<>("adres bulunamadi",HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
-    //update user
-    @PutMapping("/update")
-    public ResponseEntity<String> updateUser(HttpServletRequest request,@Valid @RequestBody User user){
-        Long id=(Long) request.getAttribute("id");
-        userService.updateUser(id,user);
-
-        return new ResponseEntity<>("success",HttpStatus.OK);
+    @GetMapping("/get/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) throws Exception{
+        User user = userService.findById(id);
+            return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    //delete User by id
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable Long id){
-        userService.deleteUserById(id);
-
-        return new ResponseEntity<>("success",HttpStatus.OK);
+    @GetMapping(path = "/post")
+    public static void gonder() {
     }
 
+    // get, post, put, delete yazilacak ve calisir vaziyette olacak
+    // UnitTest yazilacak => JUnit 5 kullanilacak
+    // Mockito Framework bakilacak
 
 
-    @PostMapping("/users100")
-    public ResponseEntity<Map<String,Long>> save100Users(){
-        Long sum= userService.save100User();
-
-        Map<String,Long> map=new HashMap<>();
-        map.put("Toplam kullanici sayisi", sum);
-        return new ResponseEntity<>(map, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/ua/{id}")
-    public ResponseEntity<List<List>> findUserByIdUndAdress(@PathVariable Long id) throws SQLException, ClassNotFoundException {
-        List<List> sonuc=new ArrayList<>();
-        JdbcDbConnector jb=new JdbcDbConnector();
-        sonuc.add(jb.getUserUndAdres1(id));
-
-
-        return new ResponseEntity<>(sonuc,HttpStatus.OK);
-    }
-
+ */
 }

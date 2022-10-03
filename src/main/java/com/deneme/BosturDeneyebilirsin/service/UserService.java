@@ -1,11 +1,13 @@
 package com.deneme.BosturDeneyebilirsin.service;
 
+
 import com.deneme.BosturDeneyebilirsin.entity.Book;
 import com.deneme.BosturDeneyebilirsin.entity.User;
 import com.deneme.BosturDeneyebilirsin.repository.UserRepository;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.util.Date;
 import java.util.List;
@@ -37,7 +39,7 @@ public class UserService {
 
     public void updateUser(Long id,User user){
         Optional<User> userDetails = userRepository.findById(id);
-        userRepository.update(id,user.getName(),user.getSoyIsim(),user.getAdres(),user.getTelefon());
+        userRepository.update(id,user.getFirstName(),user.getLastName(),user.getAdress(),user.getMobilePhoneNumber());
     }
 
     public void deleteUserById(Long id){
@@ -61,10 +63,29 @@ public class UserService {
             boolean isSingle=faker.random().nextBoolean();
             Date  time=faker.date().past(1000, TimeUnit.DAYS);
             Book book=new Book(bookId,"title","writer",time, "555","version",true);
-            User user=new User(id,book,name,soyIsim,adres,telefon,createdDate,email,securityNumber,isSingle);
+            User user=new User(id,book,createdDate,name,soyIsim,adres,email,telefon,securityNumber,isSingle);
 
             userRepository.save(user);
         }
         return userRepository.count();
+    }
+
+    public Long getCount() throws Exception {
+        Faker faker = new Faker();
+
+        for(int i=0; i<100; i++){
+            User user = new User();
+            user.setAdress(faker.address().fullAddress());
+            user.setEmail(faker.internet().emailAddress());
+            user.setSingle(faker.bool().bool());
+            user.setLastName(faker.name().lastName());
+            user.setFirstName(faker.name().firstName());
+            user.setCreatedDate(null);
+
+            userRepository.save(user);
+        }
+
+        Long count = userRepository.count();
+        return count;
     }
 }

@@ -1,6 +1,6 @@
 package com.deneme.BosturDeneyebilirsin.entity;
 
-
+import com.deneme.BosturDeneyebilirsin.entity.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,42 +8,44 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@Table(name = "books")
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "Book")
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "bookId", nullable = false)
+    private Long bookId;
 
-   // @OneToOne(cascade = CascadeType.PERSIST)
-    //@JoinColumn(name = "user_id", referencedColumnName = "id")
-    //private User userId;
+    @OneToOne(mappedBy = "book")
+    private User user;
 
-    @Column(name = "title")
-    private String title;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy/MM/dd HH:mm:ss", timezone="Germany")
+    @Column(name="publishDate", nullable = false)
+    private LocalDateTime publishDate;
+
+    @Column(name = "bookName")
+    private String bookName;
 
     @Column(name = "writer")
     private String writer;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd HH:mm:ss", timezone = "Turkey")
-    @Column(name = "publishDate")
-    private Date publishDate;
+    @Column(name = "bookVersion")
+    private String bookVersion;
 
-    @Column(name = "pageCount")
-    private String pageCount;
-
-    @Column(name = "version")
-    private String version;
+    @Column(name = "bookPageCount")
+    private int bookPageCount;
 
     @Column(name = "isEpubVersionExist")
     private boolean isEpubVersionExist;
 
-
+    public Book(long bookId, String title, String writer, Date time, String s, String version, boolean b) {
+    }
 }
