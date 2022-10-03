@@ -12,11 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+
 
 @Controller
 @RequestMapping("/jdbc")
@@ -31,10 +27,14 @@ public class JdbcController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserAdresDTO> findUserByIdUndAdress(@PathVariable("id") int id) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<Object> findUserByIdUndAdress(@PathVariable Long id)  {
 
         UserAdresDTO userAdresDTO=jdbcService.userAdres(id);
 
+        if (userAdresDTO.getAdresDTO().getId()==null){
+            return new ResponseEntity<>("adres bulunamadi",HttpStatus.BAD_REQUEST);
+        }
+      //  return new ResponseEntity<>(user,HttpStatus.OK);
 
         return new ResponseEntity<>(userAdresDTO, HttpStatus.OK);
     }

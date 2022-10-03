@@ -45,9 +45,11 @@ public class UserController {
     }
     //get user by id
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> findUserById(@PathVariable("id") Long id){
+    public ResponseEntity<Object> findUserById(@PathVariable("id") Long id){
         Optional<User> user=userService.getuserById(id);
-
+        if (user.get().getAdres()==null){
+            return new ResponseEntity<>("adres bulunamadi",HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
@@ -80,7 +82,7 @@ public class UserController {
     }
 
     @GetMapping("/ua/{id}")
-    public ResponseEntity<List<List>> findUserByIdUndAdress(@PathVariable("id") int id) throws SQLException, ClassNotFoundException {
+    public ResponseEntity<List<List>> findUserByIdUndAdress(@PathVariable Long id) throws SQLException, ClassNotFoundException {
         List<List> sonuc=new ArrayList<>();
         JdbcDbConnector jb=new JdbcDbConnector();
         sonuc.add(jb.getUserUndAdres1(id));

@@ -1,12 +1,15 @@
 package com.deneme.BosturDeneyebilirsin.service;
 
+import com.deneme.BosturDeneyebilirsin.entity.AdresDTO;
+import com.deneme.BosturDeneyebilirsin.entity.User;
 import com.deneme.BosturDeneyebilirsin.entity.UserAdresDTO;
 import com.deneme.BosturDeneyebilirsin.jdbc.JdbcDbConnector;
 import com.deneme.BosturDeneyebilirsin.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.message.AuthException;
 import java.sql.SQLException;
-import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class JdbcService {
@@ -15,14 +18,34 @@ public class JdbcService {
      JdbcDbConnector jbdb;
 
 
-     public UserAdresDTO userAdresDTO;
+    private UserRepository userRepository;
 
-     private final static String CAR_NOT_FOUND_MSG = "car with id %d not found";
+     public JdbcService(UserRepository userRepository) {
 
-     public UserAdresDTO userAdres(int id) throws SQLException, ClassNotFoundException {
+         this.userRepository = userRepository;
 
-          return jbdb.getUserUndAdres(id);
      }
 
+    public UserAdresDTO userAdres(Long id)  {
+        Optional<User> user;
+        AdresDTO adresDTO = null;
+        UserAdresDTO userAdresDTO=null;
 
-}
+            user=userRepository.findById(id);
+
+        try{
+            adresDTO=jbdb.getAdresById(id);
+        }catch (SQLException e){
+            System.out.println("database baglantisi kurulamdi");
+        }
+          /*  if (adresDTO==null){
+                 userAdresDTO=new UserAdresDTO(user,adresDTO);
+            }
+        */
+
+
+         userAdresDTO=new UserAdresDTO(user,adresDTO);
+
+        return userAdresDTO;
+    }
+    }

@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import java.util.Optional;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,26 +17,11 @@ import javax.persistence.OneToOne;
 @Setter
 public class UserAdresDTO {
 
-   private Long id;
+   private Optional<User> user;
 
-    private String name;
-
-    private String soyIsim;
-
-    private String adres;
-
-    private String telefon;
-
-    private String email;
-
-    private String securityNumber ;
-
-    private boolean isSingle;
+    private AdresDTO  adresDTO;
 
 
-    private Long bookId;
-
-    private AdresDTO  adresId;
-
-
+    public UserAdresDTO(Optional<User> user, Adres adresDTO) {
+    }
 }

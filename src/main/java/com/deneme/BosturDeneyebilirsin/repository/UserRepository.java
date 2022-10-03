@@ -13,7 +13,7 @@ import java.util.List;
 @Qualifier("users")
 @Repository
 @Transactional
-public interface UserRepository extends JpaRepository<User, Long>{
+public interface UserRepository extends JpaRepository<User,Long>{
 
 
     @Modifying

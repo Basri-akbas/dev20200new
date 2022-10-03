@@ -4,6 +4,7 @@ import com.deneme.BosturDeneyebilirsin.entity.Book;
 import com.deneme.BosturDeneyebilirsin.entity.User;
 import com.deneme.BosturDeneyebilirsin.repository.UserRepository;
 import com.github.javafaker.Faker;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -14,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserService {
-
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -30,6 +31,7 @@ public class UserService {
     }
 
     public Optional<User> getuserById(Long id){
+
         return userRepository.findById(id);
     }
 

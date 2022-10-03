@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class AdresDTO {
 
-    private Long id;
+    private String id;
     private String Sokak;
 
     private String Zip;
@@ -23,7 +23,7 @@ public class AdresDTO {
     @Override
     public String toString() {
         return "AdresDTO{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", Sokak='" + Sokak + '\'' +
                 ", Zip='" + Zip + '\'' +
                 ", Sehir='" + Sehir + '\'' +
