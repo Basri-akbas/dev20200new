@@ -36,6 +36,9 @@ public class UserController {
     }
 
 
+    // TODO request body hicbir zaman bir entity class olmamali,
+    //  buna uygun bir request class olusturmamiz gerekiyor ki icinde ID olmasin.
+    //  ID database tarafindan atanacak.
     @PostMapping("/register")
     public ResponseEntity<Map<String,Boolean>> registerUser(@RequestBody User user){
         userService.register(user);
@@ -64,6 +67,7 @@ public class UserController {
 
     //update user
     @PutMapping("/update")
+    // TODO request body degistirilmeli, ID update edilmemeli
     public ResponseEntity<String> updateUser(HttpServletRequest request,@Valid @RequestBody User user){
         Long id=(Long) request.getAttribute("id");
         userService.updateUser(id,user);
